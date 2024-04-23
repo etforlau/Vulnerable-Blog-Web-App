@@ -1,0 +1,30 @@
+<%- include("partials/header.ejs")%>
+
+<body>
+  <div class="btn_container">
+    <button class="btn_create">Create</button>
+  </div>
+
+  <div class="blog_container">
+    <% blogs.forEach(blog => { %>
+    <div class="blog">
+      <h4><%= blog.title %></h4>
+      <p>Author: <%= blog.author %></p>
+      <p><%= blog.content %></p>
+      <p>Date: <%= blog.date %></p>
+    </div>
+    <% }) %>
+  </div>
+  <button>Edit/Delete Blog</button>
+
+  <div class="create_task">
+    <form action="/createBlog" method="post">
+      <input type="text" name="title" placeholder="Title" />
+      <input type="text" name="author" placeholder="Author" />
+      <input type="text" name="content" placeholder="Blog Content" />
+      <button type="submit">Create post</button>
+    </form>
+  </div>
+</body>
+
+<%- include("partials/footer.ejs")%>
