@@ -12,17 +12,31 @@
       <p>Author: <%= blog.author %></p>
       <p><%= blog.content %></p>
       <p>Date: <%= blog.date %></p>
+
+      <% let index = 0 %>
+      <!-- Formulario para editar el blog -->
+      <form action="/edit-blog" method="post">
+        <input type="hidden" name="blogIndex" value="<%= index %>" />
+        <input type="submit" value="Edit Blog" />
+      </form>
+
+      <!-- Formulario para eliminar el blog -->
+      <form action="/delete-blog" method="post">
+        <input type="hidden" name="blogIndex" value="<%= index %>" />
+        <input type="submit" value="Delete Blog" />
+      </form>
+      <%index++%>
     </div>
+
     <% }) %>
   </div>
-  <button>Edit/Delete Blog</button>
 
   <div class="create_task">
     <form action="/createBlog" method="post">
       <input type="text" name="title" placeholder="Title" />
       <input type="text" name="author" placeholder="Author" />
       <input type="text" name="content" placeholder="Blog Content" />
-      <button type="submit">Create post</button>
+      <input type="submit" value="Create post" />
     </form>
   </div>
 </body>

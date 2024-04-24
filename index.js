@@ -28,6 +28,20 @@ app.post("/createBlog", (req, res) => {
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
+app.post("/edit-blog", (req, res) => {
+  const blogIndex = req.body["blogIndex"];
+  // Eliminar el blog del arreglo
+  blogs.splice(blogIndex, 1);
+  res.render("blogsPage.ejs", { blogs: blogs });
+});
+
+app.post("/delete-blog", (req, res) => {
+  const blogIndex = req.body["blogIndex"];
+  // Eliminar el blog del arreglo
+  blogs.splice(blogIndex, 1);
+  res.render("blogsPage.ejs", { blogs: blogs });
+});
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
