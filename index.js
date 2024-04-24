@@ -19,14 +19,6 @@ app.get("/createBlog", (req, res) => {
   res.render("blogs.ejs");
 });
 
-let blogEditIndex;
-app.post("/editBlog", (req, res) => {
-  blogEditIndex = req.body["blogIndex"];
-  // Buscar el blog a editar
-  const blogEdit = blogs.slice(blogEditIndex)[0];
-  res.render("blogs.ejs", { blogEdit: blogEdit });
-});
-
 app.post("/blog", (req, res) => {
   const newBlog = {
     title: req.body["title"],
@@ -40,8 +32,17 @@ app.post("/blog", (req, res) => {
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
+let blogEditIndex;
+app.post("/editPage", (req, res) => {
+  blogEditIndex = req.body["blogIndex"];
+  // Buscar el blog a editar
+  const blogEdit = blogs.slice(blogEditIndex)[0];
+  res.render("blogs.ejs", { blogEdit: blogEdit });
+});
+
 app.post("/editBlog", (req, res) => {
   const blogToEdit = blogs[blogEditIndex];
+  //Actualizar el blog con los nuevos cambios
   blogToEdit.title = req.body["title"];
   blogToEdit.author = req.body["author"];
   blogToEdit.content = req.body["content"];
