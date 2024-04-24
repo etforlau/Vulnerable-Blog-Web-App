@@ -2,20 +2,20 @@
 
 <body>
   <div class="btn_container">
-    <button class="btn_create">Create</button>
+    <form action="/createBlog" method="get">
+      <input type="submit" class="btn_create" value="Create" />
+    </form>
   </div>
 
   <div class="blog_container">
-    <% blogs.forEach(blog => { %>
+    <% let index = 0; %> <% blogs.forEach(blog => { %>
     <div class="blog">
       <h4><%= blog.title %></h4>
       <p>Author: <%= blog.author %></p>
       <p><%= blog.content %></p>
       <p>Date: <%= blog.date %></p>
-
-      <% let index = 0 %>
       <!-- Formulario para editar el blog -->
-      <form action="/edit-blog" method="post">
+      <form action="/editBlog" method="post">
         <input type="hidden" name="blogIndex" value="<%= index %>" />
         <input type="submit" value="Edit Blog" />
       </form>
@@ -29,15 +29,6 @@
     </div>
 
     <% }) %>
-  </div>
-
-  <div class="create_task">
-    <form action="/createBlog" method="post">
-      <input type="text" name="title" placeholder="Title" />
-      <input type="text" name="author" placeholder="Author" />
-      <input type="text" name="content" placeholder="Blog Content" />
-      <input type="submit" value="Create post" />
-    </form>
   </div>
 </body>
 

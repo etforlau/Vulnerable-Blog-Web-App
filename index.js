@@ -11,11 +11,23 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-app.get("/blogs", (req, res) => {
+app.get("/allBlogs", (req, res) => {
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
-app.post("/createBlog", (req, res) => {
+app.get("/createBlog", (req, res) => {
+  res.render("blogs.ejs");
+});
+
+let blogEditIndex;
+app.post("/editBlog", (req, res) => {
+  blogEditIndex = req.body["blogIndex"];
+  // Buscar el blog a editar
+  const blogEdit = blogs.slice(blogEditIndex)[0];
+  res.render("blogs.ejs", { blogEdit: blogEdit });
+});
+
+app.post("/blog", (req, res) => {
   const newBlog = {
     title: req.body["title"],
     author: req.body["author"],
@@ -28,10 +40,11 @@ app.post("/createBlog", (req, res) => {
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
-app.post("/edit-blog", (req, res) => {
-  const blogIndex = req.body["blogIndex"];
-  // Eliminar el blog del arreglo
-  blogs.splice(blogIndex, 1);
+app.post("/editBlog", (req, res) => {
+  const blogToEdit = blogs[blogEditIndex];
+  blogToEdit.title = req.body["title"];
+  blogToEdit.author = req.body["author"];
+  blogToEdit.content = req.body["content"];
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
