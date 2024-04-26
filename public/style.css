@@ -1,8 +1,25 @@
+html,
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%; /* Asegurarse de que el contenido ocupe toda la altura */
 }
 
+.wrapper {
+  min-height: 100%; /* Asegurarse de que el contenedor tenga al menos la altura completa */
+  display: flex; /* Usar Flexbox para alinear elementos */
+  flex-direction: column; /* Alinear elementos en columna */
+}
+
+.contenido {
+  flex: 1; /* El contenido toma todo el espacio disponible */
+}
+
+body {
+  margin: 0;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+/* header */
 .nav {
   margin: 0;
   display: flex;
@@ -27,6 +44,31 @@ body {
   color: black;
 }
 
+/* index */
+.contenido_blog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  text-align: justify;
+}
+
+.section div img {
+  width: 100px;
+  margin-right: 60px;
+}
+
+.section p {
+  line-height: 1.5;
+  width: 100%;
+}
+
+/* blogsPage */
 .btn_container {
   display: flex;
   justify-content: center;
@@ -44,15 +86,16 @@ body {
 .blog_container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
 .blog {
-  width: 300px;
+  width: 25vw;
+  height: auto;
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
-  padding: 0 90px 0 15px;
-  margin: 0 10px;
+  padding: 0 5% 0 15px;
+  margin: 0 15px;
   margin-bottom: 40px;
 }
 
@@ -70,34 +113,73 @@ body {
   margin: 15px;
 }
 
+/* blogs */
 .create_blog form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  height: 80vh;
 }
 
 .title,
 .content {
-  width: 100%;
+  width: 80%;
   padding: 10px;
+  border: 1px solid #ccc; /* Borde para visualización */
+}
+
+.author,
+.title {
+  text-align: center;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .content {
-  height: 2000px;
-  border: 1px solid #ccc; /* Borde para visualización */
+  flex-grow: 1;
   border-radius: 5px; /* Borde redondeado para estilo */
   font-size: 16px; /* Tamaño de la fuente */
   resize: none; /* Deshabilitar el cambio de tamaño manual */
   overflow-y: auto; /* Permitir desplazamiento vertical si es necesario */
+  line-height: 2;
+  text-align: justify;
 }
 
 .author {
   width: 40%;
   padding: 10px;
+  border: 1px solid #ccc;
 }
 
+/* viewBlog */
+.viewBlog {
+  display: flex;
+  justify-content: center;
+}
+
+.viewBlog div {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.viewBlog div h1,
+.viewBlog div h5 {
+  margin-bottom: 0;
+}
+
+.content_container {
+  text-align: justify;
+  line-height: 2;
+}
+
+/* footer */
 footer {
   display: flex;
   flex-direction: column;
