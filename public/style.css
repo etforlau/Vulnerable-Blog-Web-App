@@ -132,6 +132,8 @@ body {
 .author,
 .title {
   text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .title {
@@ -147,6 +149,8 @@ body {
   overflow-y: auto; /* Permitir desplazamiento vertical si es necesario */
   line-height: 2;
   text-align: justify;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .author {
