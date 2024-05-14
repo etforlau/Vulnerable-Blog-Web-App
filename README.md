@@ -38,7 +38,7 @@ The application will be available at http://localhost:3000.
 
 If you want to view or create a new blog, click in the "Create/View blogs" tag
 
-![View Blogs](images/view_bogs.png)
+![View Blogs](images/view_blogs.png)
 
 In that page you can create, edit, view and delete any blog.
 For example if you want to create a new blog, click on the Create button.
@@ -53,7 +53,7 @@ If you want to edit a blog, you can click on the Edit button. You will be able t
 
 To read an already created blog, you can click on the View button of the blog that you are interested in.
 
-![View Blog](images/view_specific_blog.png)view_specific _blog
+![View Blog](images/view_specific_blog.png)
 
 Finally, if you just want to delete a blog, click on that button.
 
