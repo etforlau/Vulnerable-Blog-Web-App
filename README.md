@@ -33,5 +33,29 @@ After installing the project, start the application with the following command:
 ```
 
 The application will be available at http://localhost:3000.
+
+![Home Page](images/home_page.png)
+
+If you want to view or create a new blog, click in the "Create/View blogs" tag
+
+![View Blogs](images/view_bogs.png)
+
+In that page you can create, edit, view and delete any blog.
+For example if you want to create a new blog, click on the Create button.
+
+![Create Blogs](images/create_blog.png)
+
+Once you have created your blog, you will be redirected to the blog page and you'll see all the blogs that have been created, including your last one.
+
+If you want to edit a blog, you can click on the Edit button. You will be able to see the blog and change anything you want.
+
+![Edit Blogs](images/edit_blog.png)
+
+To read an already created blog, you can click on the View button of the blog that you are interested in.
+
+![View Blog](images/view_specific_blog.png)view_specific _blog
+
+Finally, if you just want to delete a blog, click on that button.
+
 ## Contributing
 Contributions are welcome! If you have suggestions for improvements or new features, please create an issue or submit a pull request. 
