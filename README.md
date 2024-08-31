@@ -6,10 +6,17 @@ A simple blog web application built with Node.js, Express.js, and EJS. The appli
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Installation](#installation)
-3. [Usage](#usage)
-4. [Contributing](#contributing)
+1. [Stack](#stack)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Contributing](#contributing)
+
+## Stack
+- Node.js: JavaScript runtime used to build the server-side logic.
+- Express.js: Web framework for Node.js, used to create the server, handle HTTP requests, define routes, and manage middleware.
+- EJS: Templating engine for rendering dynamic HTML content.
+
 
 ## Features
 - **Post Creation**: Users can create new blog posts.
