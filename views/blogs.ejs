@@ -3,6 +3,8 @@
   <div class="create_blog">
     <% if (locals.blogEdit) {%>
     <form action="/editBlog" method="post">
+      <!-- Forbid submission if request does not have CSRF token -->
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">      
       <input
         class="author"
         type="text"
@@ -24,6 +26,8 @@
     </form>
     <% } else { %>
     <form action="/blog" method="post">
+      <!-- Forbid submission if request does not have CSRF token -->
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">      
       <input class="author" type="text" name="author" placeholder="Author" />
       <input class="title" type="text" name="title" placeholder="Title" />
       <textarea

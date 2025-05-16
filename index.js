@@ -1,11 +1,76 @@
 import express from "express";
 import bodyParser from "body-parser";
+import session from "express-session";
+import Tokens from "csrf";
+import dotenv from "dotenv";
+import helmet from "helmet";
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+const tokens = new Tokens();
+app.use((req, res, next) => {
+  if (!req.session.csrfSecret) {
+    req.session.csrfSecret = tokens.secretSync();
+  }
+
+  res.locals.csrfToken = tokens.create(req.session.csrfSecret); // pass to EJS
+  next();
+});
+
+const verifyCsrfToken = (req) => {
+  const secret = req.session.csrfSecret;
+  const token = req.body._csrf;
+  return tokens.verify(secret, token);
+}
+
+// Enable use of predefined secure HTTP headers
+app.use(helmet());
+
+// Customize Content Security Policy (CSP) configuration,
+// so none of requests/resources from external origins are allowed
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'"],
+    styleSrc: ["'self'"],
+    imgSrc: ["'self'"],
+    connectSrc: ["'self'"],
+    fontSrc: ["'self'"],
+    objectSrc: ["'none'"],
+    upgradeInsecureRequests: [],
+    frameAncestors: ["'none'"],
+  }
+}));
+
+// Check if current JSON object is proper
+const isValidBlog = (blog) =>
+  blog &&
+  typeof blog.title === "string" &&
+  typeof blog.author === "string" &&
+  typeof blog.content === "string" &&
+  typeof blog.date === "string" &&
+  !Array.isArray(blog.title) &&
+  !Array.isArray(blog.author) &&
+  !Array.isArray(blog.content) &&
+  !Array.isArray(blog.date) &&
+  blog.title !== null &&
+  blog.author !== null &&
+  blog.content !== null &&
+  blog.date !== null;
 
 app.get("/", (req, res) => {
   res.render("index.ejs");
@@ -28,7 +93,7 @@ app.get("/view-blog", (req, res) => {
 
   // Validación del índice para evitar errores
   if (isNaN(blogIndex) || blogIndex < 0 || blogIndex >= blogs.length) {
-    res.status(404).send("Blog no encontrado"); // Error si el índice es inválido
+    return res.status(404).send("Blog no encontrado"); // Error si el índice es inválido
   } else {
     const blog = blogs[blogIndex]; // Obteniendo el blog del índice correspondiente
 
@@ -59,6 +124,11 @@ app.get("/view-blog", (req, res) => {
 
 //Crear un blog nuevo
 app.post("/blog", (req, res) => {
+
+  if (!verifyCsrfToken(req)) {
+    return res.status(403).send("Invalid CSRF token");
+  }
+
   const newBlog = {
     title: req.body["title"],
     author: req.body["author"],
@@ -67,6 +137,12 @@ app.post("/blog", (req, res) => {
       month: "long",
     })} ${date.getDate()}, ${date.getFullYear()}`,
   };
+
+  // Validate new blog object from the request before adding it to the global array
+  if (!isValidBlog(newBlog)) {
+    return res.status(400).send("Invalid blog data.");
+  }
+
   blogs.push(newBlog);
   res.render("blogsPage.ejs", { blogs: blogs });
 });
@@ -74,7 +150,24 @@ app.post("/blog", (req, res) => {
 //Mostrar la información del blog que se desea editar
 let blogEditIndex;
 app.post("/editPage", (req, res) => {
-  blogEditIndex = req.body["blogIndex"];
+
+  if (!verifyCsrfToken(req)) {
+    return res.status(403).send("Invalid CSRF token");
+  }
+
+  // Read index from the request into a local constant
+  const reqBlogEditIndex = req.body["blogIndex"]
+
+  // Check if index from the request is a parseable integer
+  // and if it is in the bounds of blogs array
+  const parsedReqBlogEditIndex = Number(reqBlogEditIndex);
+  if (!Number.isInteger(parsedReqBlogEditIndex) || !blogs[reqBlogEditIndex]) {
+    return res.status(400).send("Invalid blog index");
+  }
+
+  // Assign the index from the request to the global variable
+  blogEditIndex = reqBlogEditIndex;
+
   // Buscar el blog a editar
   const blogEdit = blogs.slice(blogEditIndex)[0];
   res.render("blogs.ejs", { blogEdit: blogEdit });
@@ -82,17 +175,48 @@ app.post("/editPage", (req, res) => {
 
 //Editar el blog especificado
 app.post("/editBlog", (req, res) => {
+
+  if (!verifyCsrfToken(req)) {
+    return res.status(403).send("Invalid CSRF token");
+  }
+
+  const reqEditBlog = {
+    title: req.body["title"],
+    author: req.body["author"],
+    content: req.body["content"],
+  };
+
+  // Validate editted blog details from the request before modifying the actual object
+  if (!isValidBlog(reqEditBlog)) {
+    return res.status(400).send("Invalid blog data.");
+  }
+
   const blogToEdit = blogs[blogEditIndex];
-  //Actualizar el blog con los nuevos cambios
-  blogToEdit.title = req.body["title"];
-  blogToEdit.author = req.body["author"];
-  blogToEdit.content = req.body["content"];
+
+  // Assign the editted blog details from the request to the actual object
+  blogToEdit.title = reqEditBlog.title;
+  blogToEdit.author = reqEditBlog.author;
+  blogToEdit.content = reqEditBlog.content;
+
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
 //Eliminar blog
 app.post("/delete-blog", (req, res) => {
+
+  if (!verifyCsrfToken(req)) {
+    return res.status(403).send("Invalid CSRF token");
+  }
+
   const blogIndex = req.body["blogIndex"];
+
+  // Check if index from the request is a parseable integer
+  // and if it is in the bounds of blogs array
+  const parsedBlogIndex = Number(blogIndex);
+  if (!Number.isInteger(parsedBlogIndex) || !blogs[blogIndex]) {
+    return res.status(400).send("Invalid blog index");
+  }
+
   // Eliminar el blog del arreglo
   blogs.splice(blogIndex, 1);
   res.render("blogsPage.ejs", { blogs: blogs });
