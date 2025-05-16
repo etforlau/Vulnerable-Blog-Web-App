@@ -1,4 +1,26 @@
-# Blog Web App
+# Vulnerable Blog Web App
+
+This project is a fork of [Blog-Web-App](https://github.com/ricardo-0103/Blog-Web-App).
+
+It exists as a task 3 of my individual project. Its main goal is to fix several the most critical vulnerabilities.
+
+All rights and authorship belong to the author of the original project.
+
+Modifications made in this fork solve the following security issues:
+
+- Data Integrity Violation (entered objects were not validated)
+
+- Out-of-Bounds Indexing (entered indexes were not validated)
+
+- Absence of Anti-CSRF Tokens
+
+- Content Security Policy (CSP) Header Not Set
+
+- Missing Anti-clickjacking Header
+
+The text below is the content of the original README.
+
+## Blog Web App
 
 A simple blog web application built with Node.js, Express.js, and EJS. The application allows users to create, view, edit, and delete blog posts. Currently, the posts are not persisted across sessions as no database is integrated in this version.
 
