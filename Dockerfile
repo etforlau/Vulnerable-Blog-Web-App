@@ -9,3 +9,6 @@ RUN apk add --no-cache nodejs npm
 
 # Switch back to expected jenkins user
 USER jenkins
+
+# Make port available for calls outside of Docker service infrastructure
+EXPOSE 3000
