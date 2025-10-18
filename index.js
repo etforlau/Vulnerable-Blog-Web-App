@@ -222,7 +222,7 @@ app.post("/delete-blog", (req, res) => {
   res.render("blogsPage.ejs", { blogs: blogs });
 });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Listening on port ${port}`);
 });
 

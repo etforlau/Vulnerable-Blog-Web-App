@@ -17,11 +17,11 @@ pipeline {
         '''
       }
     }
-    stage('Run') {
+    stage('Deiver') {
       steps {
-        echo 'Running...'
+        echo 'Delivering...'
         sh'''
-        node index.js
+        node index.js &
         '''
       }
     }
