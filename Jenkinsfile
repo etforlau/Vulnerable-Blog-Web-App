@@ -12,25 +12,14 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building...'
-        sh'''
-        npm install
-        '''
+        sh'npm install'
       }
     }
     stage('Deiver') {
       steps {
         echo 'Delivering...'
-        sh'''
-        node index.js &
-        sleep 1
-        '''
-
+        sh'node index.js &'
         input message: 'Finished using the web site? (Click "Proceed" to continue)'
-
-        sh'''
-        kill $(cat .pidfile)
-        '''
-
       }
     }
   }
